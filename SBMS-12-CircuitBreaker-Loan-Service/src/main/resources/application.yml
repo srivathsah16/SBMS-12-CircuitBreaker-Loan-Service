@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: SBMS-12-CircuitBreaker-Loan-Service
+    
+server:
+  port: 8080
+  
+management:
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+resilience4j:
+  circuitbreaker:
+    instances:
+      loan-service:
+        register-health-indicator: true
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 60s
+        permitted-number-of-calls-in-half-open-state: 3     
+        sliding-window-type: count-based
+        
+        
